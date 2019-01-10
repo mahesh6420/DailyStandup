@@ -66,6 +66,9 @@
     <Content Update="Areas\User\Views\Account\SignedOut.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Areas\User\Views\Account\_ViewStart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Areas\User\Views\Manage\ChangePassword.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
@@ -111,7 +114,10 @@
     <Content Update="Areas\User\Views\Shared\Error.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Areas\User\Views\Shared\_Layout.cshtml">
+    <Content Update="Areas\User\Views\Shared\_DashboardSidebarPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\User\Views\Shared\_LoginLayout.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Areas\User\Views\Shared\_LoginPartial.cshtml">

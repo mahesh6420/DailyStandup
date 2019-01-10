@@ -11,8 +11,11 @@ using Microsoft.Extensions.DependencyInjection;
 using DailyStandup.Web.Data;
 using DailyStandup.Web.Models;
 using DailyStandup.Entities.Models.User;
-using DailyStandup.Interfaces;
-using DailyStandup.Common.Helpers;
+using DailyStandup.Infrastructure.Interfaces;
+using DailyStandup.Infrastructure.Services;
+using DailyStandup.Infrastructure.Interfaces.IServices;
+using DailyStandup.Infrastructure.Repository;
+using DailyStandup.Infrastructure.Interfaces.IRepository;
 
 namespace DailyStandup.Web
 {
@@ -37,6 +40,8 @@ namespace DailyStandup.Web
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IBaseRepository, BaseRepository>();
+            services.AddTransient<IProjectService, ProjectService>();
 
             services.AddMvc();
         }
@@ -62,8 +67,17 @@ namespace DailyStandup.Web
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
+                    name: "AdminRoute",
+                    template: "{area=user}/{controller=Dashboard}/{action=Index}");
+
+                routes.MapRoute(
+                    name: "LoginRoute",
+                    template: "{area=user}/{controller=Account}/{action=Login}");
+
+                routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{area:exists}/{controller=Account}/{action=Login}");
+
             });
         }
     }

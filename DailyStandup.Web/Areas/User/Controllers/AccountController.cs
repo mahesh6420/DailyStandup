@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using DailyStandup.Common.Extensions;
 using DailyStandup.Entities.Models.User;
 using DailyStandup.Entities.ViewModels.AccountViewModels;
-using DailyStandup.Interfaces;
+using DailyStandup.Infrastructure.ApplicationController;
+using DailyStandup.Infrastructure.Extensions;
+using DailyStandup.Infrastructure.Interfaces;
 using DailyStandup.Web.Models.AccountViewModels;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -20,7 +21,7 @@ namespace DailyStandup.Web.Controllers
 {
     [Area("User")]
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
@@ -64,23 +65,29 @@ namespace DailyStandup.Web.Controllers
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+
                     return RedirectToLocal(returnUrl);
                 }
+
                 if (result.RequiresTwoFactor)
                 {
                     return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
                 }
+
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
+
                     return RedirectToAction(nameof(Lockout));
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+
                     return View(model);
                 }
             }
@@ -184,6 +191,7 @@ namespace DailyStandup.Web.Controllers
             if (result.Succeeded)
             {
                 _logger.LogInformation("User with ID {UserId} logged in with a recovery code.", user.Id);
+
                 return RedirectToLocal(returnUrl);
             }
             if (result.IsLockedOut)
@@ -195,6 +203,7 @@ namespace DailyStandup.Web.Controllers
             {
                 _logger.LogWarning("Invalid recovery code entered for user with ID {UserId}", user.Id);
                 ModelState.AddModelError(string.Empty, "Invalid recovery code entered.");
+
                 return View();
             }
         }
@@ -222,8 +231,15 @@ namespace DailyStandup.Web.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser {
+                    FirstName = model.FirstName,
+                    MiddleName = model.MiddleName,
+                    LastName = model.LastName,
+                    UserName = model.Email,
+                    Email = model.Email
+                };
                 var result = await _userManager.CreateAsync(user, model.Password);
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
@@ -234,8 +250,10 @@ namespace DailyStandup.Web.Controllers
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation("User created a new account with password.");
+
                     return RedirectToLocal(returnUrl);
                 }
+
                 AddErrors(result);
             }
 
@@ -249,7 +267,7 @@ namespace DailyStandup.Web.Controllers
         {
             await _signInManager.SignOutAsync();
             _logger.LogInformation("User logged out.");
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToAction(nameof(Login));
         }
 
         [HttpPost]
@@ -337,7 +355,7 @@ namespace DailyStandup.Web.Controllers
         {
             if (userId == null || code == null)
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction(nameof(Login));
             }
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
@@ -431,8 +449,7 @@ namespace DailyStandup.Web.Controllers
         {
             return View();
         }
-
-
+        
         [HttpGet]
         public IActionResult AccessDenied()
         {
@@ -448,19 +465,6 @@ namespace DailyStandup.Web.Controllers
                 ModelState.AddModelError(string.Empty, error.Description);
             }
         }
-
-        private IActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            else
-            {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
-            }
-        }
-
         #endregion
     }
 }

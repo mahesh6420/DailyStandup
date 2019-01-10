@@ -2557,7 +2557,7 @@
           "ref/netstandard1.3/System.Text.Encoding.Extensions.dll": {}
         }
       },
-      "System.Text.Encodings.Web/4.4.0": {
+      "System.Text.Encodings.Web/4.5.0": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/System.Text.Encodings.Web.dll": {}
@@ -2769,6 +2769,32 @@
         },
         "runtime": {
           "lib/netstandard1.3/System.Xml.XPath.XDocument.dll": {}
+        }
+      },
+      "DailyStandup.Common/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.0",
+        "dependencies": {
+          "DailyStandup.Interfaces": "1.0.0",
+          "Microsoft.AspNetCore.Mvc": "2.0.4",
+          "System.Linq": "4.3.0",
+          "System.Text.Encodings.Web": "4.5.0"
+        },
+        "compile": {
+          "bin/placeholder/DailyStandup.Common.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DailyStandup.Common.dll": {}
+        }
+      },
+      "DailyStandup.Interfaces/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.0",
+        "compile": {
+          "bin/placeholder/DailyStandup.Interfaces.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DailyStandup.Interfaces.dll": {}
         }
       }
     }
@@ -7689,10 +7715,10 @@
         "system.text.encoding.extensions.nuspec"
       ]
     },
-    "System.Text.Encodings.Web/4.4.0": {
-      "sha512": "t9sy+jX5nm8IairT4espzjfvz0nwER4GVmnFKLvA2TkahtBXIDoUsS+ljfSMuIT3rejXylXmQkhom3YRTpuTCA==",
+    "System.Text.Encodings.Web/4.5.0": {
+      "sha512": "JF+wDdfFiRl3rz3dPMfR6aR568AW2J5CUMmhSflgHDz4zbVK4/00ax8UHnHyEMvblPewgNugjuA4oyoL8Pex2g==",
       "type": "package",
-      "path": "system.text.encodings.web/4.4.0",
+      "path": "system.text.encodings.web/4.5.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -7702,7 +7728,7 @@
         "lib/netstandard1.0/System.Text.Encodings.Web.xml",
         "lib/netstandard2.0/System.Text.Encodings.Web.dll",
         "lib/netstandard2.0/System.Text.Encodings.Web.xml",
-        "system.text.encodings.web.4.4.0.nupkg.sha512",
+        "system.text.encodings.web.4.5.0.nupkg.sha512",
         "system.text.encodings.web.nuspec",
         "useSharedDesignerContext.txt",
         "version.txt"
@@ -8308,10 +8334,21 @@
         "system.xml.xpath.xdocument.4.3.0.nupkg.sha512",
         "system.xml.xpath.xdocument.nuspec"
       ]
+    },
+    "DailyStandup.Common/1.0.0": {
+      "type": "project",
+      "path": "../DailyStandup.Common/DailyStandup.Common.csproj",
+      "msbuildProject": "../DailyStandup.Common/DailyStandup.Common.csproj"
+    },
+    "DailyStandup.Interfaces/1.0.0": {
+      "type": "project",
+      "path": "../DailyStandup.Interfaces/DailyStandup.Interfaces.csproj",
+      "msbuildProject": "../DailyStandup.Interfaces/DailyStandup.Interfaces.csproj"
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
+      "DailyStandup.Common >= 1.0.0",
       "Microsoft.AspNetCore.Identity >= 2.0.4",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 2.0.4",
       "Microsoft.AspNetCore.Mvc >= 2.0.4",
@@ -8347,7 +8384,11 @@
       },
       "frameworks": {
         "netcoreapp2.0": {
-          "projectReferences": {}
+          "projectReferences": {
+            "E:\\Work\\infodev\\DailyStandup\\DailyStandup.Common\\DailyStandup.Common.csproj": {
+              "projectPath": "E:\\Work\\infodev\\DailyStandup\\DailyStandup.Common\\DailyStandup.Common.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

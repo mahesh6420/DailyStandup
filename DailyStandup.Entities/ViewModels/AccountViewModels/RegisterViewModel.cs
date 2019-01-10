@@ -8,6 +8,17 @@ namespace DailyStandup.Entities.ViewModels.AccountViewModels
 {
     public class RegisterViewModel
     {
+        [Required(ErrorMessage = "First Name is Required.")]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "Middle Name")]
+        public string MiddleName { get; set; }
+
+        [Required(ErrorMessage = "Last Name is Required.")]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]

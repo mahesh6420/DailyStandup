@@ -7,3 +7,8 @@ E:\Work\infodev\DailyStandup\DailyStandup.Entities\obj\Debug\netcoreapp2.0\Daily
 E:\Work\infodev\DailyStandup\DailyStandup.Entities\bin\Debug\netcoreapp2.0\DailyStandup.Entities.pdb
 E:\Work\infodev\DailyStandup\DailyStandup.Entities\obj\Debug\netcoreapp2.0\DailyStandup.Entities.dll
 E:\Work\infodev\DailyStandup\DailyStandup.Entities\obj\Debug\netcoreapp2.0\DailyStandup.Entities.pdb
+E:\Work\infodev\DailyStandup\DailyStandup.Entities\bin\Debug\netcoreapp2.0\DailyStandup.Common.dll
+E:\Work\infodev\DailyStandup\DailyStandup.Entities\bin\Debug\netcoreapp2.0\DailyStandup.Interfaces.dll
+E:\Work\infodev\DailyStandup\DailyStandup.Entities\bin\Debug\netcoreapp2.0\DailyStandup.Common.pdb
+E:\Work\infodev\DailyStandup\DailyStandup.Entities\bin\Debug\netcoreapp2.0\DailyStandup.Interfaces.pdb
+E:\Work\infodev\DailyStandup\DailyStandup.Entities\obj\Debug\netcoreapp2.0\DailyStandup.Entities.csproj.CopyComplete

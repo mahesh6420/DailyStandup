@@ -4654,7 +4654,9 @@
       "DailyStandup.Data/1.0.0": {
         "dependencies": {
           "DailyStandup.Entities": "1.0.0",
-          "Microsoft.AspNetCore.Mvc": "2.0.4"
+          "Microsoft.AspNetCore.Mvc": "2.0.4",
+          "Microsoft.EntityFrameworkCore": "2.0.3",
+          "Microsoft.EntityFrameworkCore.SqlServer": "2.0.3"
         },
         "runtime": {
           "DailyStandup.Data.dll": {}
@@ -4665,6 +4667,7 @@
       },
       "DailyStandup.Entities/1.0.0": {
         "dependencies": {
+          "DailyStandup.Common": "1.0.0",
           "Microsoft.AspNetCore.Identity": "2.0.4",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "2.0.4",
           "Microsoft.AspNetCore.Mvc": "2.0.4"

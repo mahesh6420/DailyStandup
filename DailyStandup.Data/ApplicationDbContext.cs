@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using DailyStandup.Web.Models;
 using DailyStandup.Entities.Models.User;
+using DailyStandup.Entities.Models.Standup;
 
 namespace DailyStandup.Web.Data
 {
@@ -18,10 +19,24 @@ namespace DailyStandup.Web.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.HasDefaultSchema("DailyStandup");
             base.OnModelCreating(builder);
-            // Customize the ASP.NET Identity model and override the defaults if needed.
-            // For example, you can rename the ASP.NET Identity table names and more.
-            // Add your customizations after calling base.OnModelCreating(builder);
+
+            foreach (var relationship in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+
+            builder.Entity<ApplicationUser>().ToTable("ApplicationUsers");
+            builder.Entity<ApplicationRole>().ToTable("ApplicationRoles");
+
+            
         }
+
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<WorkToday> WorksOfToday { get; set; }
+        public DbSet<WorkYesterday> WorksOfYesterday { get; set; }
+        public DbSet<Obstacle> Obstacles { get; set; }
+        public DbSet<Standup> Standups { get; set; }
     }
 }
