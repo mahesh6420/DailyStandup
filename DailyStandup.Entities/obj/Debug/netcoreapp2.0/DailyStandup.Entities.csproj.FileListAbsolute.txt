@@ -1,0 +1,9 @@
+E:\Work\infodev\DailyStandup\DailyStandup.Entities\bin\Debug\netcoreapp2.0\DailyStandup.Entities.deps.json
+E:\Work\infodev\DailyStandup\DailyStandup.Entities\bin\Debug\netcoreapp2.0\DailyStandup.Entities.dll
+E:\Work\infodev\DailyStandup\DailyStandup.Entities\obj\Debug\netcoreapp2.0\DailyStandup.Entities.csprojAssemblyReference.cache
+E:\Work\infodev\DailyStandup\DailyStandup.Entities\obj\Debug\netcoreapp2.0\DailyStandup.Entities.csproj.CoreCompileInputs.cache
+E:\Work\infodev\DailyStandup\DailyStandup.Entities\obj\Debug\netcoreapp2.0\DailyStandup.Entities.AssemblyInfoInputs.cache
+E:\Work\infodev\DailyStandup\DailyStandup.Entities\obj\Debug\netcoreapp2.0\DailyStandup.Entities.AssemblyInfo.cs
+E:\Work\infodev\DailyStandup\DailyStandup.Entities\bin\Debug\netcoreapp2.0\DailyStandup.Entities.pdb
+E:\Work\infodev\DailyStandup\DailyStandup.Entities\obj\Debug\netcoreapp2.0\DailyStandup.Entities.dll
+E:\Work\infodev\DailyStandup\DailyStandup.Entities\obj\Debug\netcoreapp2.0\DailyStandup.Entities.pdb

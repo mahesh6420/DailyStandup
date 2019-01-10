@@ -1,0 +1,9 @@
+E:\Work\infodev\DailyStandup\DailyStandup.Interfaces\bin\Debug\netcoreapp2.0\DailyStandup.Interfaces.deps.json
+E:\Work\infodev\DailyStandup\DailyStandup.Interfaces\bin\Debug\netcoreapp2.0\DailyStandup.Interfaces.dll
+E:\Work\infodev\DailyStandup\DailyStandup.Interfaces\bin\Debug\netcoreapp2.0\DailyStandup.Interfaces.pdb
+E:\Work\infodev\DailyStandup\DailyStandup.Interfaces\obj\Debug\netcoreapp2.0\DailyStandup.Interfaces.csprojAssemblyReference.cache
+E:\Work\infodev\DailyStandup\DailyStandup.Interfaces\obj\Debug\netcoreapp2.0\DailyStandup.Interfaces.csproj.CoreCompileInputs.cache
+E:\Work\infodev\DailyStandup\DailyStandup.Interfaces\obj\Debug\netcoreapp2.0\DailyStandup.Interfaces.AssemblyInfoInputs.cache
+E:\Work\infodev\DailyStandup\DailyStandup.Interfaces\obj\Debug\netcoreapp2.0\DailyStandup.Interfaces.AssemblyInfo.cs
+E:\Work\infodev\DailyStandup\DailyStandup.Interfaces\obj\Debug\netcoreapp2.0\DailyStandup.Interfaces.dll
+E:\Work\infodev\DailyStandup\DailyStandup.Interfaces\obj\Debug\netcoreapp2.0\DailyStandup.Interfaces.pdb
