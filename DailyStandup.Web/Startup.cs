@@ -16,6 +16,9 @@ using DailyStandup.Infrastructure.Services;
 using DailyStandup.Infrastructure.Interfaces.IServices;
 using DailyStandup.Infrastructure.Repository;
 using DailyStandup.Infrastructure.Interfaces.IRepository;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace DailyStandup.Web
 {
@@ -34,14 +37,21 @@ namespace DailyStandup.Web
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = new PathString("/user/account/login");
+                });
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IBaseRepository, BaseRepository>();
             services.AddTransient<IProjectService, ProjectService>();
+            services.AddTransient<IStandupService, StandupService>();
 
             services.AddMvc();
         }
@@ -74,9 +84,9 @@ namespace DailyStandup.Web
                     name: "LoginRoute",
                     template: "{area=user}/{controller=Account}/{action=Login}");
 
-                routes.MapRoute(
-                    name: "default",
-                    template: "{area:exists}/{controller=Account}/{action=Login}");
+                //routes.MapRoute(
+                //    name: "default",
+                //    template: "{area:exists}/{controller=Account}/{action=Login}/{id?}");
 
             });
         }

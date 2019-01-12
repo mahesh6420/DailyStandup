@@ -23,7 +23,6 @@
     <ProjectReference Include="..\DailyStandup.Data\DailyStandup.Data.csproj" />
     <ProjectReference Include="..\DailyStandup.Entities\DailyStandup.Entities.csproj" />
     <ProjectReference Include="..\DailyStandup.Infrastructure\DailyStandup.Infrastructure.csproj" />
-    <ProjectReference Include="..\DailyStandup.Interfaces\DailyStandup.Interfaces.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -111,6 +110,9 @@
     <Content Update="Areas\User\Views\Manage\_ViewImports.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Areas\User\Views\Manage\_ViewStart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Areas\User\Views\Shared\Error.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
@@ -124,6 +126,12 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Areas\User\Views\Shared\_ValidationScriptsPartial.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\User\Views\Standup\Create.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\User\Views\Standup\Detail.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Areas\User\Views\_ViewImports.cshtml">

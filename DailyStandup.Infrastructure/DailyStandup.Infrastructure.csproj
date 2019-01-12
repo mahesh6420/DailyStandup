@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="ViewComponents\" />
-    <Folder Include="Repository\Standup\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,7 +16,6 @@
     <ProjectReference Include="..\DailyStandup.Common\DailyStandup.Common.csproj" />
     <ProjectReference Include="..\DailyStandup.Data\DailyStandup.Data.csproj" />
     <ProjectReference Include="..\DailyStandup.Entities\DailyStandup.Entities.csproj" />
-    <ProjectReference Include="..\DailyStandup.Interfaces\DailyStandup.Interfaces.csproj" />
   </ItemGroup>
 
 </Project>

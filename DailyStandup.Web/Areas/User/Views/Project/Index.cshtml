@@ -4,7 +4,6 @@
     ViewData["Title"] = "Project List";
 }
 
-
 <a asp-action="Create" class="btn btn-primary">Add New Project</a>
 <br />
 <br />
@@ -35,7 +34,7 @@
                                 @project.ShortDescription
                             }
                         </p>
-                        <a href="#" class="btn btn-primary">Project Details</a>
+                        <a asp-action="Detail" asp-route-id="@project.Id" class="btn btn-primary">Project Details</a>
                     </div>
                 </div>
             </div>

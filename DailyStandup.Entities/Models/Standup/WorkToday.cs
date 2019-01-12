@@ -9,10 +9,14 @@ namespace DailyStandup.Entities.Models.Standup
 {
     public class WorkToday : BaseModel
     {
-        public string WorkOfToday { get; set; }
+        public string Description { get; set; }
         public Guid ProjectId { get; set; }
+        public Guid StandupId { get; set; }
 
         [ForeignKey("ProjectId")]
-        public Project Projects { get; set; }
+        public Project Project { get; set; }
+
+        [ForeignKey("StandupId")]
+        public Standup Standup { get; set; }
     }
 }

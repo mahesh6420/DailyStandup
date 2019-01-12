@@ -51,5 +51,10 @@ namespace DailyStandup.Web.Areas.User.Controllers
 
             return Json(result);
         }
+
+        public async Task<IActionResult> Detail(Guid id)
+        {
+            return View(await _projectService.GetById(id));
+        }
     }
 }

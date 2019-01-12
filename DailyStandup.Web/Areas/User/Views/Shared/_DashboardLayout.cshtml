@@ -6,12 +6,14 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>@ViewData["Title"] - Daily Standup</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="~/lib/concept-master/vendor/bootstrap/css/bootstrap.min.css">
     <link href="~/lib/concept-master/vendor/fonts/circular-std/style.css" rel="stylesheet">
     <link rel="stylesheet" href="~/lib/concept-master/libs/css/style.css">
     <link rel="stylesheet" href="~/lib/concept-master/vendor/fonts/fontawesome/css/fontawesome-all.css">
-    <title>@ViewData["Title"] - Daily Standup</title>
+
+    @RenderSection("Css", required: false)
 </head>
 
 <body>
@@ -65,6 +67,7 @@
     <!-- main js -->
     <script src="~/lib/concept-master/libs/js/main-js.js"></script>
 
-</body>
+    @RenderSection("Scripts", required: false)
 
+</body>
 </html>
