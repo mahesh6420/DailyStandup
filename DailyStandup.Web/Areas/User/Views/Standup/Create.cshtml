@@ -1,4 +1,4 @@
-﻿@model StandupMasterViewModel
+﻿@model WorkViewModel
 
 @{
     ViewData["Title"] = "New Project";
@@ -38,11 +38,12 @@
                             <form asp-action="Create" id="validationform" data-parsley-validate="" novalidate="">
                                 <div asp-validation-summary="All"></div>
                                 <div class="form-group row">
-                                    <label asp-for="StandupDetailViewModel.WorkTodayViewModel[0].Description" class="col-12 col-sm-3 col-form-label text-sm-right"></label>
+                                    <label asp-for="Description" class="col-12 col-sm-3 col-form-label text-sm-right"></label>
                                     <div class="col-12 col-sm-8 col-lg-6">
-                                        <textarea asp-for="StandupDetailViewModel.WorkTodayViewModel[0].Description" class="form-control"></textarea>
+                                        <textarea asp-for="Description" class="form-control"></textarea>
                                     </div>
-                                    <select asp-for="StandupDetailViewModel.WorkTodayViewModel[0].ProjectId" asp-items="@{new SelectList(Model.Projects, "Id", "Name")}" class="form-control">
+                                    <select asp-for="ProjectId" asp-items="@{new SelectList(Model.Projects, "Id", "Name")}" class="form-control">
+                                        <option>Select Project</option>
                                     </select>
                                 </div>
 
@@ -53,12 +54,16 @@
                                     </div>
                                 </div>
                             </form>
+                            <div>
+                                @await  Component.InvokeAsync("WorkListToday")
+                            </div>
                         </div>
+
                         <div class="tab-pane fade" id="contact-justify" role="tabpanel" aria-labelledby="contact-tab-justify">
                             <p>Vivamus pellentesque vestibulum lectus vitae auctor. Maecenas eu sodales arcu. Fusce lobortis, libero ac cursus feugiat, nibh ex ultricies tortor, id dictum massa nisl ac nisi. Fusce a eros pellentesque, ultricies urna nec, consectetur dolor. Nam dapibus scelerisque risus, a commodo mi tempus eu.</p>
                         </div>
                     </div>
-                </div>
+                </div> 
 
             </div>
         </div>

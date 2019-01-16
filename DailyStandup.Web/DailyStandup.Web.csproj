@@ -5,6 +5,10 @@
     <UserSecretsId>aspnet-DailyStandup.Web-621DC8D3-2A7F-40B7-B875-574D5BA296EE</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="Areas\User\Views\Shared\Components\WorkList\Default.cshtml" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
@@ -16,6 +20,10 @@
     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.0.3" />
     <DotNetCliToolReference Include="Microsoft.Extensions.SecretManager.Tools" Version="2.0.2" />
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Areas\User\Views\Shared\Components\WorkList\Default.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

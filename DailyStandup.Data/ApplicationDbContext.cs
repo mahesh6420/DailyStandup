@@ -34,9 +34,7 @@ namespace DailyStandup.Web.Data
         }
 
         public DbSet<Project> Projects { get; set; }
-        public DbSet<WorkToday> WorksOfToday { get; set; }
-        public DbSet<WorkYesterday> WorksOfYesterday { get; set; }
+        public DbSet<Work> Worksssss { get; set; }
         public DbSet<Obstacle> Obstacles { get; set; }
-        public DbSet<Standup> Standups { get; set; }
     }
 }

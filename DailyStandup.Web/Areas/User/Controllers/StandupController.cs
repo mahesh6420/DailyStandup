@@ -28,32 +28,30 @@ namespace DailyStandup.Web.Areas.User.Controllers
             return View();
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            StandupMasterViewModel model = new StandupMasterViewModel()
+            WorkViewModel model = new WorkViewModel()
             {
-                    Projects = _projectService.GetAll().ToList()
+                Projects = await _projectService.GetAll(),
             };
 
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult Create(StandupDetailViewModel viewModel)
+        public async Task<IActionResult> Create(WorkViewModel viewModel)
         {
 
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                StandupMasterViewModel model = new StandupMasterViewModel()
-                {
-                    StandupDetailViewModel = viewModel,
-                    Projects = _projectService.GetAll().ToList()
-                };
+                await _standupService.Create(viewModel);
 
-                return View(model);
+                viewModel.Projects = await _projectService.GetAll();
+                return View(viewModel);
             }
 
-            return View();
+            viewModel.Projects = await _projectService.GetAll();
+            return View(viewModel);
         }
     }
 }

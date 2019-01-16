@@ -35,9 +35,9 @@ namespace DailyStandup.Infrastructure.Services
             return _repository.Create<Project>(model);
         }
 
-        public IEnumerable<Project> GetAll()
+        public async Task<IEnumerable<Project>> GetAll()
         {
-            return _repository.GetAll<Project>();
+            return await _repository.GetAllAsync<Project>().ToList();
         }
 
         public async Task<Project> GetById(Guid id)

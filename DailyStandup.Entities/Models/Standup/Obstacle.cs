@@ -11,13 +11,9 @@ namespace DailyStandup.Entities.Models.Standup
     {
         public string Description { get; set; }
         public bool IsSolved { get; set; }
-        public Guid ProjectId { get; set; }
         public Guid WorkYesterdayId { get; set; }
 
-        [ForeignKey("ProjectId")]
-        public Project Projects { get; set; }
-
         [ForeignKey("WorkYesterdayId")]
-        public WorkYesterday WorkYesterday { get; set; }
+        public Work Work { get; set; }
     }
 }

@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace DailyStandup.Entities.ViewModels.Standup
 {
-    public class WorkTodayViewModel
+    public class ObstacleViewModel
     {
         public Guid Id { get; set; }
 
         [Required(ErrorMessage = "Work Description is required.")]
-        public string Description { get; set; } 
+        public string Description { get; set; }
 
-        [Required(ErrorMessage = "Related Project is required")]
-        public Guid ProjectId { get; set; }
+        [Required(ErrorMessage = "Related Yesterda's work is required")]
+        public Guid WorkId { get; set; }
 
-        public string ProjectName { get; set; }
+        public Work Work { get; set; }
     }
 }

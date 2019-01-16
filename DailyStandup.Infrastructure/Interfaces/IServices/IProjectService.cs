@@ -12,7 +12,7 @@ namespace DailyStandup.Infrastructure.Interfaces.IServices
     public interface IProjectService
     {
         Task<DataResult> Create(ProjectViewModel viewModel);
-        IEnumerable<Project> GetAll();
+        Task<IEnumerable<Project>>   GetAll();
         Task<Project> GetById(Guid id);
     }
 }
