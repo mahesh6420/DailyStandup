@@ -10,7 +10,7 @@ namespace DailyStandup.Entities.ViewModels.Standup
     public class ProjectViewModel
     {
         [Key]
-        public Guid Id { get; set; }
+        public int Id { get; set; }
 
         [Required]
         public string Name { get; set; }

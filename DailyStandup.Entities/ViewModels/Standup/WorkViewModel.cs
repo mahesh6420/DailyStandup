@@ -11,13 +11,14 @@ namespace DailyStandup.Entities.ViewModels.Standup
 {
     public class WorkViewModel
     {
-        public Guid Id { get; set; }
+        [Key]
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "Work Description is required.")]
         public string Description { get; set; }
 
         [Required(ErrorMessage = "Related Project is required")]
-        public Guid ProjectId { get; set; }
+        public int ProjectId { get; set; }
 
         [ForeignKey("ProjectId")]
         public Project Project { get; set; }

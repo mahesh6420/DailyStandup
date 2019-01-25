@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="~/lib/srtdash/css/metisMenu.css">
     <link rel="stylesheet" href="~/lib/srtdash/css/owl.carousel.min.css">
     <link rel="stylesheet" href="~/lib/srtdash/css/slicknav.min.css">
+    <link href="~/lib/toastr/toastr.min.css" rel="stylesheet" />
     <!-- amchart css -->
     <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
     <!-- others css -->
@@ -51,11 +52,13 @@
     <script src="~/lib/srtdash/js/metisMenu.min.js"></script>
     <script src="~/lib/srtdash/js/jquery.slimscroll.min.js"></script>
     <script src="~/lib/srtdash/js/jquery.slicknav.min.js"></script>
+    <script src="~/lib/unobtrusive-ajax/unobtrusive-ajax.min.js"></script>
+    <script src="~/lib/toastr/toastr.min.js"></script>
 
     <!-- others plugins -->
     <script src="~/lib/srtdash/js/plugins.js"></script>
     <script src="~/lib/srtdash/js/scripts.js"></script>
-
-    @RenderSection("Scripts")
+    <script src="~/js/GlobalFunction.js"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

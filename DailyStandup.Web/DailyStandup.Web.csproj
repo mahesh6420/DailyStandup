@@ -6,7 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Areas\User\Views\Shared\Components\WorkList\Default.cshtml" />
+    <Content Remove="Areas\User\Views\Shared\Components\Obstacle\ObstacleList.cshtml" />
+    <Content Remove="Areas\User\Views\Shared\Components\Work\WorkList.cshtml" />
   </ItemGroup>
 
 
@@ -23,7 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Areas\User\Views\Shared\Components\WorkList\Default.cshtml" />
+    <None Include="Areas\User\Views\Shared\Components\Obstacle\ObstacleList.cshtml" />
+    <None Include="Areas\User\Views\Shared\Components\Work\WorkList.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -119,6 +121,9 @@
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Areas\User\Views\Manage\_ViewStart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\User\Views\Shared\Components\Obstacle\ObstacleForm.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
     <Content Update="Areas\User\Views\Shared\Error.cshtml">

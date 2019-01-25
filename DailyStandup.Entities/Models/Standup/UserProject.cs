@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DailyStandup.Entities.Models.User;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -7,13 +8,15 @@ using System.Threading.Tasks;
 
 namespace DailyStandup.Entities.Models.Standup
 {
-    public class Work : BaseModel
+    public class UserProject : BaseModel
     {
-        public string Description { get; set; }
-        public bool IsCompleted { get; set; }
+        public int UserId { get; set; }
         public int ProjectId { get; set; }
 
-        [ForeignKey("ProjectId")]
+        [ForeignKey("UserId")]
+        public ApplicationUser ApplicationUser { get; set; }
+
+        [ForeignKey("UserId")]
         public Project Project { get; set; }
     }
 }

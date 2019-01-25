@@ -9,7 +9,7 @@
     ViewData["Title"] = "Log in";
 }
 
-<form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+<form ajax-request="true" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
     <div class="login-form-head">
         <h4>Daily Standup</h4>
         <p>Hello there, Sign in and start managing your Daily Standup</p>

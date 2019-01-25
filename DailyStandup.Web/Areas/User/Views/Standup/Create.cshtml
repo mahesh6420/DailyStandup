@@ -12,12 +12,7 @@
             <div class="card-body">
                 <div class="tab-regular">
                     <ul class="nav nav-tabs nav-fill" id="myTab7" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="home-tab-justify" data-toggle="tab" href="#home-justify" role="tab" aria-controls="home" aria-selected="true">
-                                Yesterday's Work
-                            </a>
-                        </li>
-                        <li class="nav-item">
+                        <li class="nav-item active">
                             <a class="nav-link" id="profile-tab-justify" data-toggle="tab" href="#profile-justify" role="tab" aria-controls="profile" aria-selected="false">
                                 Today's Work
                             </a>
@@ -29,41 +24,21 @@
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent7">
-                        <div class="tab-pane fade show active" id="home-justify" role="tabpanel" aria-labelledby="home-tab-justify">
-                            <p class="lead"> All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. </p>
-                            <p>Phasellus non ante gravida, ultricies neque a, fermentum leo. Etiam ornare enim arcu, at venenatis odio mollis quis. Mauris fermentum elementum ligula in efficitur. Aliquam id congue lorem. Proin consectetur feugiasse platea dictumst. Pellentesque sed justo aliquet, posuere sem nec, elementum ante.</p>
-                            <a href="#" class="btn btn-secondary">Go somewhere</a>
-                        </div>
-                        <div class="tab-pane fade" id="profile-justify" role="tabpanel" aria-labelledby="profile-tab-justify">
-                            <form asp-action="Create" id="validationform" data-parsley-validate="" novalidate="">
-                                <div asp-validation-summary="All"></div>
-                                <div class="form-group row">
-                                    <label asp-for="Description" class="col-12 col-sm-3 col-form-label text-sm-right"></label>
-                                    <div class="col-12 col-sm-8 col-lg-6">
-                                        <textarea asp-for="Description" class="form-control"></textarea>
-                                    </div>
-                                    <select asp-for="ProjectId" asp-items="@{new SelectList(Model.Projects, "Id", "Name")}" class="form-control">
-                                        <option>Select Project</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group row text-right">
-                                    <div class="col col-sm-10 col-lg-9 offset-sm-1 offset-lg-0">
-                                        <button type="submit" class="btn btn-space btn-primary">Submit</button>
-                                        <button class="btn btn-space btn-secondary" type="button" onclick="history.go(-1)">Cancel</button>
-                                    </div>
-                                </div>
-                            </form>
+                        <div class="tab-pane fade show active" id="profile-justify" role="tabpanel" aria-labelledby="profile-tab-justify">
+                            @await Component.InvokeAsync("Form")
                             <div>
-                                @await  Component.InvokeAsync("WorkListToday")
+                                @await Component.InvokeAsync("List")
                             </div>
                         </div>
 
                         <div class="tab-pane fade" id="contact-justify" role="tabpanel" aria-labelledby="contact-tab-justify">
-                            <p>Vivamus pellentesque vestibulum lectus vitae auctor. Maecenas eu sodales arcu. Fusce lobortis, libero ac cursus feugiat, nibh ex ultricies tortor, id dictum massa nisl ac nisi. Fusce a eros pellentesque, ultricies urna nec, consectetur dolor. Nam dapibus scelerisque risus, a commodo mi tempus eu.</p>
+                            @await Component.InvokeAsync("Form")
+                            <div>
+                                @await Component.InvokeAsync("List")
+                            </div>
                         </div>
                     </div>
-                </div> 
+                </div>
 
             </div>
         </div>

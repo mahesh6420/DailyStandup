@@ -19,6 +19,7 @@ using DailyStandup.Infrastructure.Interfaces.IRepository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 namespace DailyStandup.Web
 {
@@ -37,22 +38,48 @@ namespace DailyStandup.Web
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, ApplicationRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            IdentityBuilder builder = services.AddIdentityCore<ApplicationUser>(options =>
+            {
+                options.Lockout.MaxFailedAccessAttempts = 3;
+                options.SignIn.RequireConfirmedEmail = true;
+                options.User.RequireUniqueEmail = true;
+            });
 
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options =>
-                {
-                    options.LoginPath = new PathString("/user/account/login");
-                });
+            builder = new IdentityBuilder(builder.UserType, typeof(ApplicationRole), builder.Services);
+            builder.AddEntityFrameworkStores<ApplicationDbContext>()
+              .AddRoleValidator<RoleValidator<ApplicationRole>>()
+              .AddRoleManager<RoleManager<ApplicationRole>>()
+              .AddSignInManager<SignInManager<ApplicationUser>>()
+              .AddDefaultTokenProviders();
+
+          
+            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            //    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+            //    options =>
+            //    {
+            //        options.LoginPath = new PathString("/user/account/login");
+            //        options.AccessDeniedPath = new PathString("/user/account/accessdenied");
+            //    });
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IBaseRepository, BaseRepository>();
             services.AddTransient<IProjectService, ProjectService>();
-            services.AddTransient<IStandupService, StandupService>();
+            services.AddTransient<IWorkService, WorkService>();
+            services.AddTransient<IObstacleService, ObstacleService>();
 
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignOutScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+              options =>
+              {
+                  options.LoginPath = new PathString("/user/account/login");
+                  options.AccessDeniedPath = new PathString("/user/account/accessdenied");
+              });
             services.AddMvc();
         }
 
@@ -71,9 +98,7 @@ namespace DailyStandup.Web
             }
 
             app.UseStaticFiles();
-
             app.UseAuthentication();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

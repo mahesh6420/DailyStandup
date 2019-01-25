@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace DailyStandup.Infrastructure.Interfaces.IServices
 {
-    public interface IStandupService
+    public interface IWorkService
     {
         Task<DataResult> Create(WorkViewModel viewModel);
-        Task<IEnumerable<Work>> GetAll();
-        Task<IEnumerable<Work>> GetAllByDate(DateTime date);
-        Task<Project> GetById(Guid id);
+        Task<DataResult> Update(WorkViewModel viewModel);
+        Task<IEnumerable<Work>> GetAll(string day = null);
+        Task<Work> GetById(Guid id);
     }
 }

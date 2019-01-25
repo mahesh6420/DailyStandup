@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace DailyStandup.Common.Enums
 {
-    public enum Day
+    public enum ViewName
     {
-        Today = 0,
-        Yesterday = 1,
-        Old = 2,
+        Form = 0,
+        List = 1,
+        Today = 2,
+        Yesterday = 3,
+        Old = 4
     }
 }

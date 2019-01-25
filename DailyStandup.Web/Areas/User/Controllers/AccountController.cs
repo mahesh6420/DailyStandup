@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using DailyStandup.Common.Enums;
+using DailyStandup.Entities.Models;
 using DailyStandup.Entities.Models.User;
 using DailyStandup.Entities.ViewModels.AccountViewModels;
 using DailyStandup.Infrastructure.ApplicationController;
@@ -10,12 +12,14 @@ using DailyStandup.Infrastructure.Extensions;
 using DailyStandup.Infrastructure.Interfaces;
 using DailyStandup.Web.Models.AccountViewModels;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace DailyStandup.Web.Controllers
 {
@@ -47,8 +51,13 @@ namespace DailyStandup.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(string returnUrl = null)
         {
+            if(_signInManager.IsSignedIn(User))
+            {
+                RedirectToLocal(returnUrl);
+            }
+
             // Clear the existing external cookie to ensure a clean login process
-            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             ViewData["ReturnUrl"] = returnUrl;
             return View();
@@ -70,7 +79,12 @@ namespace DailyStandup.Web.Controllers
                 {
                     _logger.LogInformation("User logged in.");
 
-                    return RedirectToLocal(returnUrl);
+                    return Json(new DataResult
+                    {
+                        Status = Status.Success,
+                        Message = "Logged in successfully",
+                        ReturnUrl = returnUrl ?? "/user/dashboard"
+                    });
                 }
 
                 if (result.RequiresTwoFactor)
@@ -86,14 +100,20 @@ namespace DailyStandup.Web.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-
-                    return View(model);
+                    return Json(new DataResult
+                    {
+                        Status = Status.Failed,
+                        Message = "Invalid login attempt"
+                    });
                 }
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return Json(new DataResult
+            {
+                Status = Status.Failed,
+                Message = $"{JsonConvert.SerializeObject(ModelState.Values.SelectMany(m=>m.Errors).Select(m=>m.ErrorMessage))}"
+            });
         }
 
         [HttpGet]
@@ -228,37 +248,60 @@ namespace DailyStandup.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
-            ViewData["ReturnUrl"] = returnUrl;
-            if (ModelState.IsValid)
+            try
             {
-                var user = new ApplicationUser {
-                    FirstName = model.FirstName,
-                    MiddleName = model.MiddleName,
-                    LastName = model.LastName,
-                    UserName = model.Email,
-                    Email = model.Email
-                };
-                var result = await _userManager.CreateAsync(user, model.Password);
-
-                if (result.Succeeded)
+                ViewData["ReturnUrl"] = returnUrl;
+                if (ModelState.IsValid)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    var user = new ApplicationUser
+                    {
+                        FirstName = model.FirstName,
+                        MiddleName = model.MiddleName,
+                        LastName = model.LastName,
+                        UserName = model.Email,
+                        Email = model.Email
+                    };
+                    var result = await _userManager.CreateAsync(user, model.Password);
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
-                    await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+                    if (result.Succeeded)
+                    {
+                        _logger.LogInformation("User created a new account with password.");
 
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    _logger.LogInformation("User created a new account with password.");
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var callbackUrl = Url.EmailConfirmationLink(user.Id.ToString(), code, Request.Scheme);
+                        await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
-                    return RedirectToLocal(returnUrl);
+                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        _logger.LogInformation("User created a new account with password.");
+
+                        return Json(new DataResult
+                        {
+                            Status = Status.Success,
+                            Message = "Logged in successfully",
+                            ReturnUrl = returnUrl ?? "/user/dashboard"
+                        });
+                    }
+
+                    AddErrors(result);
                 }
-
-                AddErrors(result);
+            }
+            catch(Exception ex)
+            {
+                return Json(new DataResult
+                {
+                    Status = Status.Exception,
+                    //Message = "Error in the application Please contact vendor for support."
+                    Message = $"{ex.Message}"
+                });
             }
 
+            var a = ModelState.Values.SelectMany(m => m.Errors).Select(m => m.ErrorMessage);
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return Json(new DataResult
+            {
+                Status = Status.Failed,
+                Message = JsonConvert.SerializeObject(ModelState.Values.SelectMany(m => m.Errors).Select(m => m.ErrorMessage))
+            });
         }
 
         [HttpPost]
@@ -390,7 +433,7 @@ namespace DailyStandup.Web.Controllers
                 // For more information on how to enable account confirmation and password reset please
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
+                var callbackUrl = Url.ResetPasswordCallbackLink(user.Id.ToString(), code, Request.Scheme);
                 await _emailSender.SendEmailAsync(model.Email, "Reset Password",
                    $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));

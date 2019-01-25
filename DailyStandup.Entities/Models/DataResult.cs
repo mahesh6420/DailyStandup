@@ -12,5 +12,6 @@ namespace DailyStandup.Entities.Models
         public Status Status{ get; set; }
         public string Message { get; set; }
         public string ReturnId { get; set; }
+        public string ReturnUrl { get; set; }
     }
 }

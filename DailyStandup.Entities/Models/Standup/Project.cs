@@ -14,9 +14,7 @@ namespace DailyStandup.Entities.Models.Standup
         public string ShortDescription { get; set; }
         public string LongDescription { get; set; }
         public bool IsArchieved { get; set; }
-        //public Guid ProjectUserId { get; set; }
 
-        //[ForeignKey("ProjectUserId")]
-        //public ProjectUser ProjectUsers { get; set; }
+        public IEnumerable<UserProject> Users { get; set; }
     }
 }

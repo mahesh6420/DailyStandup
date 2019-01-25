@@ -7,7 +7,10 @@ using Microsoft.AspNetCore.Identity;
 namespace DailyStandup.Entities.Models.User
 {
     // Add profile data for application users by adding properties to the ApplicationUser class
-    public class ApplicationRole : IdentityRole
+    public class ApplicationRole : IdentityRole<int>
     {
+        public string Descriminator { get; set; }
+
+        public IEnumerable<UserRole> UserRole { get; set; }
     }
 }

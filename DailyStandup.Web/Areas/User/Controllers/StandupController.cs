@@ -1,4 +1,6 @@
-﻿using DailyStandup.Entities.ViewModels.Standup;
+﻿using DailyStandup.Common.Enums;
+using DailyStandup.Entities.Models;
+using DailyStandup.Entities.ViewModels.Standup;
 using DailyStandup.Infrastructure.ApplicationController;
 using DailyStandup.Infrastructure.Interfaces.IServices;
 using Microsoft.AspNetCore.Authorization;
@@ -15,11 +17,17 @@ namespace DailyStandup.Web.Areas.User.Controllers
     [Authorize]
     public class StandupController : BaseController
     {
-        private readonly IStandupService _standupService;
+        private readonly IWorkService _workService;
+        private readonly IObstacleService _obstacleService;
         private readonly IProjectService _projectService;
-        public StandupController(IStandupService standupService, IProjectService projectService)
+        public StandupController(
+            IWorkService workService,
+            IProjectService projectService,
+            IObstacleService obstacleService
+            )
         {
-            _standupService = standupService;
+            _workService = workService;
+            _obstacleService = obstacleService;
             _projectService = projectService;
         }
 
@@ -28,30 +36,58 @@ namespace DailyStandup.Web.Areas.User.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-            WorkViewModel model = new WorkViewModel()
-            {
-                Projects = await _projectService.GetAll(),
-            };
-
-            return View(model);
+            return View();
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(WorkViewModel viewModel)
         {
 
             if (ModelState.IsValid)
             {
-                await _standupService.Create(viewModel);
+                await _workService.Create(viewModel);
 
-                viewModel.Projects = await _projectService.GetAll();
                 return View(viewModel);
             }
-
-            viewModel.Projects = await _projectService.GetAll();
+            
             return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddObstacle(ObstacleViewModel viewModel)
+        {
+            if(ModelState.IsValid)
+            {
+                var result = await _obstacleService.Create(viewModel);
+
+                return Json(result);
+            }
+
+            return Json(new DataResult
+            {
+                Status = Status.Failed,
+                Message = $"{ModelState.Values.SelectMany(m => m.Errors).Select(m=>m.ErrorMessage)}"
+            });
+        }
+
+        public async Task<IActionResult> UpdateObstacle(ObstacleViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _obstacleService.Update(viewModel);
+
+                return Json(result);
+            }
+
+            return Json(new DataResult
+            {
+                Status = Status.Failed,
+                Message = $"{ModelState.Values.SelectMany(m => m.Errors).Select(m => m.ErrorMessage)}"
+            });
         }
     }
 }

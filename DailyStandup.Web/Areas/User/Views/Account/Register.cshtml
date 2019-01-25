@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Register";
 }
-<form asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post">
+<form asp-action="register" asp-route-returnUrl="@ViewData["ReturnUrl"]" ajax-request="true" method="post">
     <div class="login-form-head">
         <h4>Daily Standup</h4>
         <p>Hello there, Sign up and Join Daily Standup.</p>
