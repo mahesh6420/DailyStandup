@@ -1,20 +1,23 @@
 ﻿@model IEnumerable<Obstacle>
 
-@if (Model != null && Model.Count() > 0)
-{
-    foreach (var work in Model)
+<div class="row">
+
+    @if (Model != null && Model.Count() > 0)
     {
-        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
-            <div class="card">
-                <div class="card-header d-flex">
-                    <h4 class="mb-0">Task</h4>
-                    <div class="dropdown ml-auto">
+        foreach (var work in Model)
+        {
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
+                <div class="card card-bordered">
+                    <div class="card-header d-flex">
+                        <h4 class="mb-0">Obstacle - @work.Work?.Project?.Name</h4>
+                        <div class="dropdown ml-auto">
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">@work.Description</p>
                     </div>
                 </div>
-                <div class="card-body">
-                    <p class="card-text">@work.Description</p>
-                </div>
             </div>
-        </div>
+        }
     }
-}
+</div>

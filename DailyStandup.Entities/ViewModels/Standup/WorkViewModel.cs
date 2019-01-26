@@ -23,6 +23,6 @@ namespace DailyStandup.Entities.ViewModels.Standup
         [ForeignKey("ProjectId")]
         public Project Project { get; set; }
 
-        public IEnumerable<Project> Projects { get; set; }
+        public IEnumerable<ProjectViewModel> Projects { get; set; }
     }
 }

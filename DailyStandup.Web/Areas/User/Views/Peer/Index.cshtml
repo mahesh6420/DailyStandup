@@ -1,0 +1,33 @@
+﻿@model IEnumerable<ApplicationUser>
+
+@{
+    ViewData["Title"] = "Peer List";
+}
+
+<div class="row">
+    @if (Model != null && Model.Count() > 0)
+    {
+        @foreach (var user in Model)
+        {
+            <div class="col-xs-6 col-sm-4 col-md-3">
+                <div class="mainflip">
+                    <div class="frontside">
+                        <div class="card">
+                            <div class="card-body text-center">
+                                <p><img class=" img-fluid" src="https://sunlimetech.com/portfolio/boot4menu/assets/imgs/team/img_01.png" alt="card image"></p>
+                                <h4 class="card-title">@user.FullName</h4>
+                                <p class="card-text">"@user.Designation#</p>
+                                <a href="#" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+@section CSS
+    {
+    <link href="~/css/Module/Profile/profilelist.css" rel="stylesheet" />
+}

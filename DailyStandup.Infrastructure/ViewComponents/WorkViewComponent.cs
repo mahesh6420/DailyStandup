@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace DailyStandup.Infrastructure.ViewComponents
 {
-    public class WorkListTodayViewComponent : ViewComponent
+    public class WorkViewComponent : ViewComponent
     {
         private readonly IWorkService _workService;
         private readonly IProjectService _projectService;
 
-        public WorkListTodayViewComponent(IWorkService workService, IProjectService projectService)
+        public WorkViewComponent(IWorkService workService, IProjectService projectService)
         {
             _workService = workService;
             _projectService = projectService;

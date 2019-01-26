@@ -105,7 +105,9 @@
                         </div>
                         <a class="dropdown-item" href="#"><i class="fas fa-user mr-2"></i>Account</a>
                         <a class="dropdown-item" asp-controller="Manage" asp-action="Index"><i class="fas fa-cog mr-2"></i>Setting</a>
-                        <a class="dropdown-item" asp-controller="account" asp-action="logout" ><i class="fas fa-power-off mr-2"></i>Logout</a>
+                        <form asp-area="user" asp-controller="account" asp-action="logout">
+                            <button class="dropdown-item" type="submit"><i class="fas fa-power-off mr-2"></i>Logout</button>
+                        </form>
                     </div>
                 </li>
             </ul>

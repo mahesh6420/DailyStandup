@@ -24,14 +24,14 @@ namespace DailyStandup.Web.Areas.User.Controllers
             _projectService = projectService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View(_projectService.GetAll());
+            return View(await _projectService.GetAll());
         }
 
         public IActionResult Create()
         {
-            return View();
+            return View(new ProjectViewModel { });
         }
 
         [HttpPost]

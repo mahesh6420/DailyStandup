@@ -25,9 +25,11 @@ namespace DailyStandup.Infrastructure.ViewComponents
         {
             if (viewName.ToLowerInvariant() == ViewName.Form.ToString().ToLowerInvariant())
             {
+                var works = await _workService.GetAll(Day.Yesterday.ToString());
+
                 return View("ObstacleForm", new ObstacleViewModel {
-                    Works = await _workService.GetAll(Day.Yesterday.ToString()
-                    )});
+                    Works = works
+                });
             }
 
             if (viewName.ToLowerInvariant() == ViewName.List.ToString().ToLowerInvariant())

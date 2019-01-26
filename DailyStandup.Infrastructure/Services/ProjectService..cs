@@ -35,9 +35,16 @@ namespace DailyStandup.Infrastructure.Services
             return _repository.Create<Project>(model);
         }
 
-        public async Task<IEnumerable<Project>> GetAll()
+        public async Task<IEnumerable<ProjectViewModel>> GetAll()
         {
-            return await _repository.GetAllAsync<Project>().ToList();
+            return await (from project in _repository.GetAllAsync<Project>()
+                          select new ProjectViewModel
+                          {
+                              Id = project.Id,
+                              Name = project.Name,
+                              ShortDescription = project.ShortDescription,
+                              LongDescription = project.LongDescription
+                          }).ToList();
         }
 
         public async Task<Project> GetById(Guid id)

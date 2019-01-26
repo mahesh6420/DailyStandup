@@ -1,13 +1,13 @@
 ﻿@model ObstacleViewModel
 
-<form asp-action="Create" id="validationform" data-parsley-validate="" novalidate="">
+<form asp-action="addObstacle" ajax-request="true" id="validationform" data-parsley-validate="" novalidate="">
     <div asp-validation-summary="All"></div>
     <div class="form-group row">
         <label asp-for="Description" class="col-12 col-sm-3 col-form-label text-sm-right"></label>
         <div class="col-12 col-sm-8 col-lg-6">
             <textarea asp-for="Description" class="form-control"></textarea>
         </div>
-        <select asp-for="WorkId" asp-items="@{new SelectList(Model.Works, "Id", "Name")}" class="form-control">
+        <select name="WorkId" asp-items="@{new SelectList(Model.Works, "Id", "Description")}" class="form-control">
             <option>Select Project</option>
         </select>
     </div>

@@ -57,7 +57,7 @@ namespace DailyStandup.Web.Controllers
             }
 
             // Clear the existing external cookie to ensure a clean login process
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync(IdentityConstants.ApplicationScheme);
 
             ViewData["ReturnUrl"] = returnUrl;
             return View();
@@ -68,6 +68,11 @@ namespace DailyStandup.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
+            if (_signInManager.IsSignedIn(User))
+            {
+                RedirectToLocal(returnUrl);
+            }
+
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
@@ -103,7 +108,7 @@ namespace DailyStandup.Web.Controllers
                     return Json(new DataResult
                     {
                         Status = Status.Failed,
-                        Message = "Invalid login attempt"
+                        Message = "Invalid login attempt."
                     });
                 }
             }
@@ -260,7 +265,7 @@ namespace DailyStandup.Web.Controllers
                         LastName = model.LastName,
                         UserName = model.Email,
                         Email = model.Email
-                    };
+                    };                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
                     var result = await _userManager.CreateAsync(user, model.Password);
 
                     if (result.Succeeded)
@@ -274,12 +279,7 @@ namespace DailyStandup.Web.Controllers
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation("User created a new account with password.");
 
-                        return Json(new DataResult
-                        {
-                            Status = Status.Success,
-                            Message = "Logged in successfully",
-                            ReturnUrl = returnUrl ?? "/user/dashboard"
-                        });
+                        RedirectToLocal(returnUrl);
                     }
 
                     AddErrors(result);
