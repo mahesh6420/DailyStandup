@@ -9,11 +9,8 @@ using System.Threading.Tasks;
 
 namespace DailyStandup.Infrastructure.Interfaces.IServices
 {
-    public interface IObstacleService
+    public interface IObstacleService : IBaseService<Obstacle, ObstacleViewModel, Guid>
     {
-        Task<DataResult> Create(ObstacleViewModel viewModel);
-        Task<DataResult> Update(ObstacleViewModel viewModel);
-        Task<IEnumerable<Obstacle>> GetAll(string day = null);
-        Task<Obstacle> GetById(Guid id);
+        
     }
 }

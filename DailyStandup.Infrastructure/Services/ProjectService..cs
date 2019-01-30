@@ -3,6 +3,7 @@ using DailyStandup.Entities.Models.Standup;
 using DailyStandup.Entities.ViewModels.Standup;
 using DailyStandup.Infrastructure.Interfaces.IRepository;
 using DailyStandup.Infrastructure.Interfaces.IServices;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,21 +36,36 @@ namespace DailyStandup.Infrastructure.Services
             return _repository.Create<Project>(model);
         }
 
-        public async Task<IEnumerable<ProjectViewModel>> GetAll()
+        public async Task<IEnumerable<ProjectViewModel>> GetAll(string day = null)
         {
-            return await (from project in _repository.GetAllAsync<Project>()
+            var a = await (from project in _repository.GetAllAsync<Project>()
                           select new ProjectViewModel
                           {
                               Id = project.Id,
                               Name = project.Name,
                               ShortDescription = project.ShortDescription,
                               LongDescription = project.LongDescription
-                          }).ToList();
+                          }).ToListAsync();
+
+            return a; 
         }
 
-        public async Task<Project> GetById(Guid id)
+        public async Task<ProjectViewModel> GetById(Guid id)
         {
-            return await _repository.GetById<Project, Guid>(id);
+            Project model = await _repository.GetById<Project, Guid>(id);
+
+            return new ProjectViewModel
+            {
+                Id = model.Id,
+                Name = model.Name,
+                LongDescription = model.LongDescription,
+                ShortDescription = model.ShortDescription
+            };
+        }
+
+        public Task<DataResult> Update(ProjectViewModel viewModel)
+        {
+            throw new NotImplementedException();
         }
     }
 }

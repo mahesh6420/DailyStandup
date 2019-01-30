@@ -266,9 +266,9 @@ namespace DailyStandup.Infrastructure.Repository
             return _context.Set<T>();
         }
 
-        public IAsyncEnumerable<T> GetAllAsync<T>() where T : class
+        public IQueryable<T> GetAllAsync<T>() where T : class
         {
-            return _context.Set<T>().ToAsyncEnumerable();
+            return _context.Set<T>();
         }
 
         public async Task<T> GetById<T, TKey>(TKey key) where T : class

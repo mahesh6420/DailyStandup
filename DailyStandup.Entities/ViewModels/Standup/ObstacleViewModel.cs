@@ -11,17 +11,17 @@ namespace DailyStandup.Entities.ViewModels.Standup
 {
     public class ObstacleViewModel
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required(ErrorMessage = "Work Description is required.")]
         public string Description { get; set; }
 
         [Required(ErrorMessage = "Related Yesterda's work is required")]
-        public int WorkId { get; set; }
+        public Guid WorkId { get; set; }
 
         [ForeignKey("WorkId")]
         public Work Work { get; set; }
 
-        public IEnumerable<Work> Works { get; set; }
+        public IEnumerable<WorkViewModel> Works { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using DailyStandup.Entities.Models.Standup;
 using DailyStandup.Entities.ViewModels.Standup;
 using DailyStandup.Infrastructure.Interfaces.IRepository;
 using DailyStandup.Infrastructure.Interfaces.IServices;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,30 +71,39 @@ namespace DailyStandup.Infrastructure.Services
             }
         }
 
-        public async Task<IEnumerable<Work>> GetAll(string day = null)
+        public async Task<IEnumerable<WorkViewModel>> GetAll(string day = null)
         {
+            IQueryable<Work> result = null;
             if(day!=null)
             {
                 if(day.ToLowerInvariant() == Day.Today.ToString().ToLowerInvariant())
                 {
-                    return await _repository.GetAllAsync<Work>().Where(w => w.CreatedDate.Date == DateTime.Today).ToList();
+                    result = _repository.GetAllAsync<Work>().Where(w => w.CreatedDate.Date == DateTime.Today);
                 }
 
                 if (day.ToLowerInvariant() == Day.Yesterday.ToString().ToLowerInvariant())
                 {
-                    return await _repository.GetAllAsync<Work>().Where(w => w.CreatedDate.Date == DateTime.Today.AddDays(-1)).ToList();
+                    result = _repository.GetAllAsync<Work>().Where(w => w.CreatedDate.Date == DateTime.Today.AddDays(-1));
                 }
 
                 if (day.ToLowerInvariant() == Day.Old.ToString().ToLowerInvariant())
                 {
-                    return await _repository.GetAllAsync<Work>().Where(w => w.CreatedDate.Date < DateTime.Today.AddDays(-1)).ToList();
+                    result = _repository.GetAllAsync<Work>().Where(w => w.CreatedDate.Date < DateTime.Today.AddDays(-1));
                 }
-
-                Work[] works = new Work[] { };
-                return works.ToList();
             }
 
-            return await _repository.GetAllAsync<Work>().ToList();/*Where(predicate(args))*/
+            if (result == null)
+            {
+                result =  _repository.GetAllAsync<Work>();/*Where(predicate(args))*/
+            }
+
+            return await(from res in result
+                   select new WorkViewModel
+                   {
+                       Id = res.Id,
+                       Description = res.Description,
+                       ProjectId = res.ProjectId
+                   }).ToListAsync();
         }
 
         //Func<Work, bool> predicate(string args)
@@ -104,9 +114,15 @@ namespace DailyStandup.Infrastructure.Services
         //    }
         //}
 
-        public async Task<Work> GetById(Guid id)
+        public async Task<WorkViewModel> GetById(Guid id)
         {
-            return await _repository.GetById<Work, Guid>(id);
+            Work model = await _repository.GetById<Work, Guid>(id);
+            return new WorkViewModel
+            {
+                Id = model.Id,
+                ProjectId = model.ProjectId,
+                Description = model.Description
+            };
         }
 
     }

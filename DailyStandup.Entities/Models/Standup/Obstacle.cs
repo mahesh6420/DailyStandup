@@ -11,7 +11,7 @@ namespace DailyStandup.Entities.Models.Standup
     {
         public string Description { get; set; }
         public bool IsSolved { get; set; }
-        public int WorkYesterdayId { get; set; }
+        public Guid WorkYesterdayId { get; set; }
 
         [ForeignKey("WorkYesterdayId")]
         public Work Work { get; set; }

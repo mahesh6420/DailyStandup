@@ -4,6 +4,7 @@ using DailyStandup.Entities.Models.Standup;
 using DailyStandup.Entities.ViewModels.Standup;
 using DailyStandup.Infrastructure.Interfaces.IRepository;
 using DailyStandup.Infrastructure.Interfaces.IServices;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,30 +70,36 @@ namespace DailyStandup.Infrastructure.Services
             }
         }
 
-        public async Task<IEnumerable<Obstacle>> GetAll(string day = null)
+        public async Task<IEnumerable<ObstacleViewModel>> GetAll(string day = null)
         {
+            IQueryable<Obstacle> result = null;
             if (day != null)
             {
                 if (day.ToLowerInvariant() == Day.Today.ToString().ToLowerInvariant())
                 {
-                    return await  _repository.GetAllAsync<Obstacle>().Where(w => w.CreatedDate.Date == DateTime.Today).ToList();
+                    result =  _repository.GetAllAsync<Obstacle>().Where(w => w.CreatedDate.Date == DateTime.Today);
                 }
 
                 if (day.ToLowerInvariant() == Day.Yesterday.ToString().ToLowerInvariant())
                 {
-                    return await _repository.GetAllAsync<Obstacle>().Where(w => w.CreatedDate.Date == DateTime.Today.AddDays(-1)).ToList();
+                    result = _repository.GetAllAsync<Obstacle>().Where(w => w.CreatedDate.Date == DateTime.Today.AddDays(-1));
                 }
 
                 if (day.ToLowerInvariant() == Day.Old.ToString().ToLowerInvariant())
                 {
-                    return await _repository.GetAllAsync<Obstacle>().Where(w => w.CreatedDate.Date < DateTime.Today.AddDays(-1)).ToList();
+                    result = _repository.GetAllAsync<Obstacle>().Where(w => w.CreatedDate.Date < DateTime.Today.AddDays(-1));
                 }
-
-                Obstacle[] works = new Obstacle[] { };
-                return works.ToList();
             }
 
-            return await _repository.GetAllAsync<Obstacle>().ToList();/*Where(predicate(args))*/
+            if(result == null) _repository.GetAllAsync<Obstacle>();/*Where(predicate(args))*/
+
+            return await (from res in result
+                          select new ObstacleViewModel
+                          {
+                              Id = res.Id,
+                              Description = res.Description,
+                              WorkId = res.WorkYesterdayId
+                          }).ToListAsync();
         }
 
         //Func<Work, bool> predicate(string args)
@@ -103,9 +110,17 @@ namespace DailyStandup.Infrastructure.Services
         //    }
         //}
 
-        public async Task<Obstacle> GetById(Guid id)
+
+        public async Task<ObstacleViewModel> GetById(Guid id)
         {
-            return await _repository.GetById<Obstacle, Guid>(id);
+             Obstacle model = await _repository.GetById<Obstacle, Guid>(id);
+            return new ObstacleViewModel
+            {
+                Id = model.Id,
+                Description = model.Description,
+                Work = model.Work,
+                WorkId = model.WorkYesterdayId
+            }; 
         }
     }
 }

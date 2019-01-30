@@ -8,6 +8,11 @@
   <ItemGroup>
     <Content Remove="Areas\User\Views\Shared\Components\Obstacle\ObstacleList.cshtml" />
     <Content Remove="Areas\User\Views\Shared\Components\Work\WorkList.cshtml" />
+    <Content Remove="wwwroot\css\ApplicationController\BaseController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="wwwroot\css\ApplicationController\BaseController.cs" />
   </ItemGroup>
 
 

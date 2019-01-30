@@ -11,12 +11,12 @@ namespace DailyStandup.Entities.Models.Standup
     public class UserProject : BaseModel
     {
         public int UserId { get; set; }
-        public int ProjectId { get; set; }
+        public Guid ProjectId { get; set; }
 
         [ForeignKey("UserId")]
         public ApplicationUser ApplicationUser { get; set; }
 
-        [ForeignKey("UserId")]
+        [ForeignKey("ProjectId")]
         public Project Project { get; set; }
     }
 }

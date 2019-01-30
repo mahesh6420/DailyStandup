@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
+using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System;
 
 namespace DailyStandup.Data.Migrations
@@ -23,7 +24,7 @@ namespace DailyStandup.Data.Migrations
 
             modelBuilder.Entity("DailyStandup.Entities.Models.Standup.Obstacle", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreatedDate");
@@ -34,7 +35,7 @@ namespace DailyStandup.Data.Migrations
 
                     b.Property<DateTime>("UpdatedDate");
 
-                    b.Property<int>("WorkYesterdayId");
+                    b.Property<Guid>("WorkYesterdayId");
 
                     b.HasKey("Id");
 
@@ -45,7 +46,7 @@ namespace DailyStandup.Data.Migrations
 
             modelBuilder.Entity("DailyStandup.Entities.Models.Standup.Project", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreatedDate");
@@ -67,18 +68,20 @@ namespace DailyStandup.Data.Migrations
 
             modelBuilder.Entity("DailyStandup.Entities.Models.Standup.UserProject", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreatedDate");
 
-                    b.Property<int>("ProjectId");
+                    b.Property<Guid>("ProjectId");
 
                     b.Property<DateTime>("UpdatedDate");
 
                     b.Property<int>("UserId");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
 
                     b.HasIndex("UserId");
 
@@ -87,7 +90,7 @@ namespace DailyStandup.Data.Migrations
 
             modelBuilder.Entity("DailyStandup.Entities.Models.Standup.Work", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("CreatedDate");
@@ -96,7 +99,7 @@ namespace DailyStandup.Data.Migrations
 
                     b.Property<bool>("IsCompleted");
 
-                    b.Property<int>("ProjectId");
+                    b.Property<Guid>("ProjectId");
 
                     b.Property<DateTime>("UpdatedDate");
 
@@ -192,27 +195,6 @@ namespace DailyStandup.Data.Migrations
                     b.ToTable("ApplicationUsers");
                 });
 
-            modelBuilder.Entity("DailyStandup.Entities.Models.User.UserRole", b =>
-                {
-                    b.Property<int>("UserId");
-
-                    b.Property<int>("RoleId");
-
-                    b.Property<int?>("ApplicationRoleId");
-
-                    b.Property<int?>("ApplicationUserId");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("ApplicationRoleId");
-
-                    b.HasIndex("ApplicationUserId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("UserRole");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
                     b.Property<int>("Id")
@@ -266,6 +248,24 @@ namespace DailyStandup.Data.Migrations
                     b.ToTable("AspNetUserLogins");
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.Property<int>("UserId");
+
+                    b.Property<int>("RoleId");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserRole<int>");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
                     b.Property<int>("UserId");
@@ -281,6 +281,23 @@ namespace DailyStandup.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("DailyStandup.Entities.Models.User.UserRole", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserRole<int>");
+
+                    b.Property<int?>("ApplicationRoleId");
+
+                    b.Property<int?>("ApplicationUserId");
+
+                    b.HasIndex("ApplicationRoleId");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("UserRole");
+
+                    b.HasDiscriminator().HasValue("UserRole");
+                });
+
             modelBuilder.Entity("DailyStandup.Entities.Models.Standup.Obstacle", b =>
                 {
                     b.HasOne("DailyStandup.Entities.Models.Standup.Work", "Work")
@@ -293,7 +310,7 @@ namespace DailyStandup.Data.Migrations
                 {
                     b.HasOne("DailyStandup.Entities.Models.Standup.Project", "Project")
                         .WithMany("Users")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("DailyStandup.Entities.Models.User.ApplicationUser", "ApplicationUser")
@@ -307,29 +324,6 @@ namespace DailyStandup.Data.Migrations
                     b.HasOne("DailyStandup.Entities.Models.Standup.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("DailyStandup.Entities.Models.User.UserRole", b =>
-                {
-                    b.HasOne("DailyStandup.Entities.Models.User.ApplicationRole")
-                        .WithMany("UserRole")
-                        .HasForeignKey("ApplicationRoleId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("DailyStandup.Entities.Models.User.ApplicationUser")
-                        .WithMany("UserRole")
-                        .HasForeignKey("ApplicationUserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("DailyStandup.Entities.Models.User.ApplicationRole")
-                        .WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("DailyStandup.Entities.Models.User.ApplicationUser")
-                        .WithMany()
-                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
@@ -357,11 +351,37 @@ namespace DailyStandup.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.HasOne("DailyStandup.Entities.Models.User.ApplicationRole")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DailyStandup.Entities.Models.User.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
                 {
                     b.HasOne("DailyStandup.Entities.Models.User.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict);
+                });
+
+            modelBuilder.Entity("DailyStandup.Entities.Models.User.UserRole", b =>
+                {
+                    b.HasOne("DailyStandup.Entities.Models.User.ApplicationRole")
+                        .WithMany("UserRole")
+                        .HasForeignKey("ApplicationRoleId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("DailyStandup.Entities.Models.User.ApplicationUser")
+                        .WithMany("UserRole")
+                        .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
