@@ -40,7 +40,11 @@
 
             if (data.status === 1) {
                 toastr.success(data.message);
-                callback(data);
+
+                if (data.returnUrl !== null) {
+                    window.location.reload;
+                }
+                //callback(data);
             }
             else {
                 toastr.error(data.message);

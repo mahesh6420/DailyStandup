@@ -38,7 +38,7 @@ namespace DailyStandup.Infrastructure.Services
 
         public async Task<IEnumerable<ProjectViewModel>> GetAll(string day = null)
         {
-            var a = await (from project in _repository.GetAllAsync<Project>()
+           return await (from project in _repository.GetAllAsync<Project>()
                           select new ProjectViewModel
                           {
                               Id = project.Id,
@@ -46,8 +46,6 @@ namespace DailyStandup.Infrastructure.Services
                               ShortDescription = project.ShortDescription,
                               LongDescription = project.LongDescription
                           }).ToListAsync();
-
-            return a; 
         }
 
         public async Task<ProjectViewModel> GetById(Guid id)

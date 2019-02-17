@@ -279,7 +279,12 @@ namespace DailyStandup.Web.Controllers
                         await _signInManager.SignInAsync(user, isPersistent: false);
                         _logger.LogInformation("User created a new account with password.");
 
-                        RedirectToLocal(returnUrl);
+                        return Json(new DataResult
+                        {
+                            Status = Status.Success,
+                            Message = "Successfully Registered.",
+                            ReturnUrl = returnUrl
+                        });
                     }
 
                     AddErrors(result);
