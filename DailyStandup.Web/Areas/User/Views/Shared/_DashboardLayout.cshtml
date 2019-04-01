@@ -1,4 +1,7 @@
-﻿<!doctype html>
+﻿@{
+    ViewData["Title"] = $"{ViewContext.RouteData.Values["action"]} {ViewContext.RouteData.Values["controller"]}";
+}
+<!doctype html>
 <html lang="en">
 
 
@@ -15,6 +18,7 @@
 
     <!-- libraries -->
     <link href="~/lib/toastr/toastr.min.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
 
     <!--page css-->
     @RenderSection("Css", required: false)
@@ -22,8 +26,8 @@
 
 <body>
     <div class="dashboard-main-wrapper">
-       @Html.Partial("_DashboardHeaderPartial")
-       @Html.Partial("_DashboardSidebarPartial")
+        @Html.Partial("_DashboardHeaderPartial")
+        @Html.Partial("_DashboardSidebarPartial")
         <div class="dashboard-wrapper">
             <div class="influence-profile">
                 <div class="container-fluid dashboard-content ">
@@ -34,7 +38,11 @@
                                 <div class="page-breadcrumb">
                                     <nav aria-label="breadcrumb">
                                         <ol class="breadcrumb">
-                                            <li class="breadcrumb-item"><a href="#" class="breadcrumb-link">Dashboard</a></li>
+                                            <li class="breadcrumb-item">
+                                                <a href="#" class="breadcrumb-link">
+                                                    @ViewContext.RouteData.Values["controller"]
+                                                </a>
+                                            </li>
                                         </ol>
                                     </nav>
                                 </div>
@@ -43,7 +51,7 @@
                     </div>
 
                     <!-- content -->
-                   @RenderBody()
+                    @RenderBody()
                 </div>
             </div>
             <!-- ============================================================== -->
